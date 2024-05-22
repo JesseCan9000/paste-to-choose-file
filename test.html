@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose File Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .file-preview {
+            margin-top: 20px;
+        }
+        .file-preview img {
+            max-width: 300px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose File Test</h1>
+    <input type="file" id="fileInput">
+    <div class="file-preview" id="filePreview">
+        <p>No file chosen</p>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const filePreview = document.getElementById('filePreview');
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                filePreview.innerHTML = `<p>File: ${file.name}</p>`;
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        filePreview.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            } else {
+                filePreview.innerHTML = '<p>No file chosen</p>';
+            }
+        });
+    </script>
+</body>
+</html>
